@@ -1,0 +1,33 @@
+services:
+  echoclass:
+    build: .
+    image: echoclass:local
+    init: true
+    restart: unless-stopped
+    user: "1000:1000"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    stop_grace_period: 15s
+    ports:
+      - "127.0.0.1:${ECHOCLASS_HOST_PORT:-3000}:3000"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
+    volumes:
+      - echoclass-data:/app/data
+      - echoclass-uploads:/app/uploads
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      STORAGE_MODE: sqlite
+      ECHOCLASS_DATA_DIR: /app/data
+      ECHOCLASS_SEED_DEMO: "0"
+      ECHOCLASS_SCIENTIFIC_ENABLED: "${ECHOCLASS_SCIENTIFIC_ENABLED:-0}"
+      ECHOCLASS_GROUNDED_AI_ENABLED: "0"
+
+volumes:
+  echoclass-data:
+  echoclass-uploads:

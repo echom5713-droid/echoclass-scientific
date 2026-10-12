@@ -1,0 +1,48 @@
+{
+  "schema": "echoclass.method-study-config.v1",
+  "design_status": "Committed fixed study specification; designed stress tests, not a registered or representative benchmark. No seed search or outcome-based selection.",
+  "concentrations": [0, 1, 3, 4],
+  "replicates_per_concentration": 5,
+  "seeds": [1201, 1202, 1203, 1204, 1205, 1206, 1207, 1208, 1209, 1210, 1211, 1212],
+  "rng": "numpy.random.Generator(PCG64(seed))",
+  "noise": "Independent uniform(-sqrt(3)*sd, sqrt(3)*sd) record errors before rounding; the same standard draws are paired across scenarios.",
+  "observation_rounding": "Decimal(str(value)), ROUND_HALF_UP to 0.01 yield percentage points; no clipping, rejection, or seed selection.",
+  "unseen_grid": [0.25, 0.5, 0.75, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3.25, 3.5, 3.75],
+  "models": ["constant", "linear", "quadratic"],
+  "target": "Per-concentration mean yield; concentrations receive equal weight for every model.",
+  "validation": "Leave one entire concentration out; baselines are refitted from only the three remaining group means. Quadratic folds come from the production scientific result.",
+  "scenarios": [
+    { "id": "constant", "label": "Constant response", "truth": "8", "noise_sd": 0.4 },
+    { "id": "linear", "label": "Linear response", "truth": "6 + 0.75*x", "noise_sd": 0.4 },
+    {
+      "id": "quadratic_quiet",
+      "label": "Quadratic, low noise",
+      "truth": "6 + 4*x - x*x",
+      "noise_sd": 0.1
+    },
+    {
+      "id": "quadratic_noisy",
+      "label": "Quadratic, higher noise",
+      "truth": "6 + 4*x - x*x",
+      "noise_sd": 1
+    },
+    {
+      "id": "aliased_quartic",
+      "label": "Unobserved shape counterexample",
+      "truth": "6 + 4*(x-2)^2 - (x-2)^4",
+      "noise_sd": 0.1
+    }
+  ],
+  "alias_design": "The quartic and low-noise quadratic agree exactly at all four tested concentrations. With paired errors their sealed observations are identical. This is a deliberately adversarial identifiability example, not a claim about citrus chemistry.",
+  "aggregation": "Pooled RMSE is sqrt(mean(squared residuals)) over all available trial-point pairs. Trial RMSE min/median/max describe these fixed simulations, not confidence intervals. Failures are counted separately; an unavailable quadratic candidate is not a failed prediction model.",
+  "limitations": [
+    "Synthetic numerical investigation only; no real experiments, students, or efficacy evidence.",
+    "Four concentrations and five synthetic independent records per concentration do not establish physical independence in classroom data.",
+    "Twelve fixed seeds are a small reproducibility panel, not a representative benchmark or statistical certification.",
+    "LOCO target is a noisy held-out group mean; grid target is the unrounded noiseless generating function. Their errors answer different questions.",
+    "Endpoint LOCO folds extrapolate beyond their training range; interior folds interpolate.",
+    "Three-point quadratic folds are saturated. Small CV error cannot establish an unseen optimum or distinguish observationally aliased functions.",
+    "No model, hyperparameter, or experiment is selected from the held-out grid or these study results.",
+    "The production candidate rule remains conservative and is assessed separately from prediction accuracy."
+  ]
+}

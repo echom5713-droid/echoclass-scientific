@@ -1,0 +1,44 @@
+main {
+  overflow-wrap: anywhere;
+}
+input,
+select,
+textarea,
+button {
+  box-sizing: border-box;
+}
+textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.65rem;
+  border: 1px solid #8ba496;
+  border-radius: 0.4rem;
+  font: inherit;
+  resize: vertical;
+}
+.language-switch {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+}
+.language-switch a {
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.4rem;
+}
+.language-switch a[aria-current="true"] {
+  background: #e6eef7;
+  color: #163f66;
+  font-weight: 700;
+}
+.canonical-copy {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border: 1px solid #d8e0e8;
+  border-radius: 0.5rem;
+}
+.canonical-copy p {
+  white-space: pre-wrap;
+}

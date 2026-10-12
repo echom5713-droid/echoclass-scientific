@@ -1,0 +1,43 @@
+{
+  "schema": "echoclass.followup-design-config.v1",
+  "design_status": "Fixed synthetic design specified before simulation; no outcome-based selection or seed search. Not independently preregistered.",
+  "response_unit": "yield percentage points",
+  "hypotheses": [
+    { "id": "q", "formula": "6 + 4*x - x*x" },
+    { "id": "f", "formula": "q(x) - x*(x-1)*(x-3)*(x-4)" }
+  ],
+  "original_concentrations": [0, 1, 3, 4],
+  "candidate_grid": [
+    0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4
+  ],
+  "selection_rule": "Maximize absolute difference of the two fully specified noiseless responses over the fixed grid before drawing any new data; break equal maxima by the smaller concentration.",
+  "designs": [
+    { "id": "repeat_original", "concentration": 1 },
+    { "id": "off_center", "concentration": 0.5 },
+    { "id": "max_separation", "concentration": 2 }
+  ],
+  "noise_standard_deviations": [1, 2, 4],
+  "replicate_counts": [1, 3, 5],
+  "trials_per_truth_noise_replication": 10000,
+  "rng": {
+    "generator": "numpy.random.Generator(PCG64(SeedSequence(entropy)))",
+    "base_seed": 2101,
+    "entropy_order": ["base_seed", "truth_index", "noise_index", "replication_index"],
+    "draw_order": "One standard_normal((10000, n)) array per entropy tuple, C order; mean(axis=1) then multiply by sigma.",
+    "pairing": "Fresh independent draws across the 18 truth/noise/replication cells. Within each cell, reuse the same standard-normal replicate array for all three design choices. Trials across designs are paired, not independent."
+  },
+  "observation_model": "Independent Gaussian errors with known common standard deviation within a cell. No rounding, clipping, truncation, rejection sampling, or reuse of original four-point observations.",
+  "decision_rule": "Choose the fully specified response whose predicted mean is nearest to the new replicate mean. Exact distance ties choose q on even zero-based trial indices and f on odd indices. The tie rule does not use truth.",
+  "analytic_error": "For either truth: Phi(-abs(q(x)-f(x))*sqrt(n)/(2*sigma)); at equal predictions the balanced tie rule has conditional error 0.5 over the 10000 trial indices.",
+  "aggregation": "Report conditional errors under each truth separately. Their arithmetic mean is the error under an explicitly equal prior on q and f. Monte Carlo minus analytic error is a descriptive discrepancy, not a confidence interval or acceptance threshold.",
+  "remaining_alias_formula": "g(x) = q(x) - x*(x-1)*(x-2)*(x-3)*(x-4)",
+  "limitations": [
+    "Both response functions and the Gaussian noise standard deviation are assumed known; they are not estimated from four observations.",
+    "This is a fixed binary discrimination calculation, not adaptive discovery, general optimal experimental design, optimum validation, or a chemical mechanism.",
+    "Gaussian draws may leave a physically feasible yield range. No clipping is performed because it would change the declared analytical model.",
+    "The prior is used only to label the average of the two conditional error rates. No population prevalence is inferred.",
+    "A fifth noiseless point separates q from f but does not identify an arbitrary response: the constructed g still agrees with q at all five concentrations.",
+    "This standalone study reads no classroom database, calls no production worker, fits no model, and does not modify the production candidate rule.",
+    "Exact random-number replay depends on the recorded Python, NumPy, and platform environment. Source identity is not independent certification."
+  ]
+}

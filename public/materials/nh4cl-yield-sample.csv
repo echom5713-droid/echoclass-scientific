@@ -1,0 +1,7 @@
+record_id,participant_id,class_id,group_id,nh4cl_concentration_percent,peel_mass_g,oil_mass_g,yield_percent,distillation_time_min,phase_clarity_score,inhibition_zone_diameter_mm,review_state,data_source
+demo-1,demo-student-01,demo-class,demo-group-01,0,50,0.38,0.76,45,2,0.0,included,synthetic_demo
+demo-2,demo-student-02,demo-class,demo-group-02,1,50,0.54,1.08,45,3,8.5,included,synthetic_demo
+demo-3,demo-student-03,demo-class,demo-group-03,3,50,0.73,1.46,45,5,13.5,included,synthetic_demo
+demo-4,demo-student-04,demo-class,demo-group-04,4,50,0.61,1.22,45,4,15.2,included,synthetic_demo
+demo-5,demo-student-05,demo-class,demo-group-05,4,50,1.25,2.50,45,1,22.1,review,synthetic_demo
+demo-6,demo-student-06,demo-class,demo-group-06,3,50,0.69,1.38,40,4,12.8,included,synthetic_demo

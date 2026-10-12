@@ -1,0 +1,2 @@
+# Optional figure rendering only; not used by the scientific worker or study.
+matplotlib==3.10.8

@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  background: #f4f7f5;
+  color: #182b24;
+  font:
+    16px/1.6 system-ui,
+    sans-serif;
+}
+main {
+  max-width: 1120px;
+  margin: 36px auto;
+  padding: 0 24px 48px;
+}
+section {
+  background: white;
+  border: 1px solid #cfddd6;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+label {
+  display: block;
+  margin: 12px 0;
+}
+select,
+input,
+button {
+  font: inherit;
+  max-width: 100%;
+}
+button {
+  border: 1px solid #235f49;
+  border-radius: 6px;
+  background: #235f49;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+a {
+  color: #235f49;
+}
+.table-wrap {
+  overflow: auto;
+}
+table {
+  border-collapse: collapse;
+  background: white;
+  font-size: 14px;
+}
+th,
+td {
+  border: 1px solid #cfddd6;
+  padding: 8px;
+  min-width: 100px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#csv-errors {
+  color: #8d2828;
+}

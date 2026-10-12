@@ -1,0 +1,18 @@
+dist
+node_modules
+public/models
+public/materials
+public/client.js
+public/styles.css
+scripts
+tests/*.mjs
+*.cjs
+src/views/pages.js
+src/lib
+src/infrastructure/database/storage.js
+package-lock.json
+
+# Generated study evidence and Matplotlib SVG; retain generator output.
+resources/experiments/method-study-v1.json
+docs/figures/*.svg
+resources/experiments/followup-design-v1.json

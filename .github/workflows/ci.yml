@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NODE_ENV: test
+      ECHOCLASS_SEED_DEMO: "0"
+      ECHOCLASS_SCIENTIFIC_ENABLED: "0"
+      ECHOCLASS_PYTHON: python
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12.13"
+          cache: pip
+          cache-dependency-path: analytics/requirements.lock
+
+      - name: Install pinned scientific dependencies
+        run: python -m pip install -r analytics/requirements.lock && python -m pip check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Public source snapshot boundary
+        run: npm run publication:check
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Scientific methods and real worker tests
+        run: npm run test:python
+
+      - name: Fixed scientific method comparison (synthetic)
+        run: npm run scientific:study -- --text
+
+      - name: Independently reconstruct committed study predictions
+        run: PYTHONPATH=analytics python -m experiments.audit_method_study resources/experiments/method-study-v1.json
+
+      - name: Fixed follow-up design and independent reconstruction
+        run: |
+          npm run scientific:design -- --text
+          PYTHONPATH=analytics python -m experiments.audit_followup_design resources/experiments/followup-design-v1.json
+          python scripts/generate-followup-lookup.py --check
+
+      - name: Unit and architecture tests
+        run: npm test
+
+      - name: Read-only synthetic evidence trail
+        run: npm run project:trace -- --text
+
+      - name: Grounded evidence contract evaluation (offline synthetic)
+        run: npm run eval:grounded
+
+      - name: Project document retrieval evaluation (offline regression)
+        run: npm run eval:retrieval
+
+      - name: Integration tests
+        run: npm run test:integration
+
+      - name: Smoke test
+        run: npm run smoke-test
+
+      - name: Runtime security check
+        run: npm run security-check
+
+      - name: Formatting check
+        run: npm run format:check
+
+      - name: Architecture boundary gate
+        run: node --test dist/tests/architecture-boundaries.test.js

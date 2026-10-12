@@ -1,0 +1,65 @@
+name: Scientific container
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scientific-container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      COMPOSE_PROJECT_NAME: echoclass-container-${{ github.run_id }}-${{ github.run_attempt }}
+      ECHOCLASS_SCIENTIFIC_ENABLED: "1"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Validate Compose and build the actual image
+        run: |
+          docker compose config --quiet
+          docker compose build --pull
+
+      - name: Seed an isolated empty volume with synthetic observations
+        run: docker compose run --rm --no-deps -e ECHOCLASS_CONTAINER_TEST=1 echoclass node scripts/container-verify.mjs seed
+
+      - name: Start the normal image entrypoint with the real scientific worker
+        run: docker compose up --detach --wait --wait-timeout 90
+
+      - name: Verify runtime, scientific HTTP calculation, strict CLI and mounted corpus
+        run: docker compose exec -T -e ECHOCLASS_CONTAINER_TEST=1 echoclass node scripts/container-verify.mjs verify
+
+      - name: Run the complete synthetic method study from the image
+        run: docker compose exec -T echoclass node scripts/method-study.mjs --text
+
+      - name: Trace the synthetic input and result from the image
+        run: docker compose exec -T echoclass node scripts/project-trace.mjs --text
+
+      - name: Run and audit the fixed follow-up design from the image
+        run: |
+          docker compose exec -T echoclass node scripts/followup-design.mjs --text
+          docker compose exec -T -e PYTHONPATH=analytics echoclass /opt/venv/bin/python -m experiments.audit_followup_design resources/experiments/followup-design-v1.json
+
+      - name: Verify sealed result survives restart and exact reproduction
+        run: |
+          docker compose restart
+          docker compose up --detach --wait --wait-timeout 90
+          docker compose exec -T -e ECHOCLASS_CONTAINER_TEST=1 echoclass node scripts/container-verify.mjs replay
+
+      - name: Show image identity and bounded application logs
+        if: always()
+        run: |
+          docker image inspect echoclass:local --format '{{.Id}} {{.Os}}/{{.Architecture}} user={{.Config.User}}'
+          docker compose logs --no-color --tail 100
+
+      - name: Remove only this CI project's disposable synthetic state
+        if: always()
+        run: docker compose down --volumes --remove-orphans

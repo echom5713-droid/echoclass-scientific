@@ -1,0 +1,1435 @@
+{
+  "schema": "echoclass.followup-design.v1",
+  "configuration": {
+    "schema": "echoclass.followup-design-config.v1",
+    "design_status": "Fixed synthetic design specified before simulation; no outcome-based selection or seed search. Not independently preregistered.",
+    "response_unit": "yield percentage points",
+    "hypotheses": [
+      {
+        "id": "q",
+        "formula": "6 + 4*x - x*x"
+      },
+      {
+        "id": "f",
+        "formula": "q(x) - x*(x-1)*(x-3)*(x-4)"
+      }
+    ],
+    "original_concentrations": [
+      0,
+      1,
+      3,
+      4
+    ],
+    "candidate_grid": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1,
+      1.25,
+      1.5,
+      1.75,
+      2,
+      2.25,
+      2.5,
+      2.75,
+      3,
+      3.25,
+      3.5,
+      3.75,
+      4
+    ],
+    "selection_rule": "Maximize absolute difference of the two fully specified noiseless responses over the fixed grid before drawing any new data; break equal maxima by the smaller concentration.",
+    "designs": [
+      {
+        "id": "repeat_original",
+        "concentration": 1
+      },
+      {
+        "id": "off_center",
+        "concentration": 0.5
+      },
+      {
+        "id": "max_separation",
+        "concentration": 2
+      }
+    ],
+    "noise_standard_deviations": [
+      1,
+      2,
+      4
+    ],
+    "replicate_counts": [
+      1,
+      3,
+      5
+    ],
+    "trials_per_truth_noise_replication": 10000,
+    "rng": {
+      "generator": "numpy.random.Generator(PCG64(SeedSequence(entropy)))",
+      "base_seed": 2101,
+      "entropy_order": [
+        "base_seed",
+        "truth_index",
+        "noise_index",
+        "replication_index"
+      ],
+      "draw_order": "One standard_normal((10000, n)) array per entropy tuple, C order; mean(axis=1) then multiply by sigma.",
+      "pairing": "Fresh independent draws across the 18 truth/noise/replication cells. Within each cell, reuse the same standard-normal replicate array for all three design choices. Trials across designs are paired, not independent."
+    },
+    "observation_model": "Independent Gaussian errors with known common standard deviation within a cell. No rounding, clipping, truncation, rejection sampling, or reuse of original four-point observations.",
+    "decision_rule": "Choose the fully specified response whose predicted mean is nearest to the new replicate mean. Exact distance ties choose q on even zero-based trial indices and f on odd indices. The tie rule does not use truth.",
+    "analytic_error": "For either truth: Phi(-abs(q(x)-f(x))*sqrt(n)/(2*sigma)); at equal predictions the balanced tie rule has conditional error 0.5 over the 10000 trial indices.",
+    "aggregation": "Report conditional errors under each truth separately. Their arithmetic mean is the error under an explicitly equal prior on q and f. Monte Carlo minus analytic error is a descriptive discrepancy, not a confidence interval or acceptance threshold.",
+    "remaining_alias_formula": "g(x) = q(x) - x*(x-1)*(x-2)*(x-3)*(x-4)",
+    "limitations": [
+      "Both response functions and the Gaussian noise standard deviation are assumed known; they are not estimated from four observations.",
+      "This is a fixed binary discrimination calculation, not adaptive discovery, general optimal experimental design, optimum validation, or a chemical mechanism.",
+      "Gaussian draws may leave a physically feasible yield range. No clipping is performed because it would change the declared analytical model.",
+      "The prior is used only to label the average of the two conditional error rates. No population prevalence is inferred.",
+      "A fifth noiseless point separates q from f but does not identify an arbitrary response: the constructed g still agrees with q at all five concentrations.",
+      "This standalone study reads no classroom database, calls no production worker, fits no model, and does not modify the production candidate rule.",
+      "Exact random-number replay depends on the recorded Python, NumPy, and platform environment. Source identity is not independent certification."
+    ]
+  },
+  "identity": {
+    "study_code_hash": "sha256:c8870ad1cba1f766b8f82f4c4ec13bb5cbd2b97d6537576bf1ca506510a2280c",
+    "configuration_file_hash": "sha256:5eca0e3329a8d413e790b260add0db6fe18b34d7381841c2e92323bd521785ff",
+    "runtime_fingerprint": "sha256:94264f3a4f084936702ff6f5aeb67cba0adfefd3765b3b903ce58e467920f1f2",
+    "runtime": {
+      "python": {
+        "implementation": "CPython",
+        "version": "3.12.13",
+        "build": [
+          "main",
+          "Aug  7 2026 02:25:39"
+        ],
+        "compiler": "Clang 22.1.3 "
+      },
+      "numpy_version": "2.3.5",
+      "platform": {
+        "system": "Linux",
+        "release": "6.18.44",
+        "machine": "x86_64",
+        "libc": [
+          "glibc",
+          "2.39"
+        ]
+      },
+      "byteorder": "little"
+    },
+    "runtime_scope": "Numerical Python process only; Node validates and formats output without drawing samples."
+  },
+  "design": {
+    "candidate_predictions": [
+      {
+        "concentration": 0,
+        "q_mean": 6,
+        "f_mean": 6,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 0.25,
+        "q_mean": 6.9375,
+        "f_mean": 8.87109375,
+        "absolute_gap": 1.93359375
+      },
+      {
+        "concentration": 0.5,
+        "q_mean": 7.75,
+        "f_mean": 9.9375,
+        "absolute_gap": 2.1875
+      },
+      {
+        "concentration": 0.75,
+        "q_mean": 8.4375,
+        "f_mean": 9.80859375,
+        "absolute_gap": 1.37109375
+      },
+      {
+        "concentration": 1,
+        "q_mean": 9,
+        "f_mean": 9,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 1.25,
+        "q_mean": 9.4375,
+        "f_mean": 7.93359375,
+        "absolute_gap": 1.50390625
+      },
+      {
+        "concentration": 1.5,
+        "q_mean": 9.75,
+        "f_mean": 6.9375,
+        "absolute_gap": 2.8125
+      },
+      {
+        "concentration": 1.75,
+        "q_mean": 9.9375,
+        "f_mean": 6.24609375,
+        "absolute_gap": 3.69140625
+      },
+      {
+        "concentration": 2,
+        "q_mean": 10,
+        "f_mean": 6,
+        "absolute_gap": 4
+      },
+      {
+        "concentration": 2.25,
+        "q_mean": 9.9375,
+        "f_mean": 6.24609375,
+        "absolute_gap": 3.69140625
+      },
+      {
+        "concentration": 2.5,
+        "q_mean": 9.75,
+        "f_mean": 6.9375,
+        "absolute_gap": 2.8125
+      },
+      {
+        "concentration": 2.75,
+        "q_mean": 9.4375,
+        "f_mean": 7.93359375,
+        "absolute_gap": 1.50390625
+      },
+      {
+        "concentration": 3,
+        "q_mean": 9,
+        "f_mean": 9,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 3.25,
+        "q_mean": 8.4375,
+        "f_mean": 9.80859375,
+        "absolute_gap": 1.37109375
+      },
+      {
+        "concentration": 3.5,
+        "q_mean": 7.75,
+        "f_mean": 9.9375,
+        "absolute_gap": 2.1875
+      },
+      {
+        "concentration": 3.75,
+        "q_mean": 6.9375,
+        "f_mean": 8.87109375,
+        "absolute_gap": 1.93359375
+      },
+      {
+        "concentration": 4,
+        "q_mean": 6,
+        "f_mean": 6,
+        "absolute_gap": 0
+      }
+    ],
+    "selected_concentration": 2,
+    "selected_gap": 4,
+    "maximizers": [
+      2
+    ],
+    "selection_before_sampling": true,
+    "choices": [
+      {
+        "id": "repeat_original",
+        "concentration": 1,
+        "q_mean": 9,
+        "f_mean": 9,
+        "absolute_gap": 0
+      },
+      {
+        "id": "off_center",
+        "concentration": 0.5,
+        "q_mean": 7.75,
+        "f_mean": 9.9375,
+        "absolute_gap": 2.1875
+      },
+      {
+        "id": "max_separation",
+        "concentration": 2,
+        "q_mean": 10,
+        "f_mean": 6,
+        "absolute_gap": 4
+      }
+    ]
+  },
+  "simulation": {
+    "conditional_cell_count": 54,
+    "trials_per_cell": 10000,
+    "paired_noise_batch_count": 18,
+    "independent_trial_mean_draw_count": 180000,
+    "independent_record_draw_count": 540000,
+    "design_trial_evaluations": 540000
+  },
+  "results": [
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 1,
+      "replicates": 1,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 1,
+      "replicates": 3,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 1,
+      "replicates": 5,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 2,
+      "replicates": 1,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 2,
+      "replicates": 3,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 2,
+      "replicates": 5,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 4,
+      "replicates": 1,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 4,
+      "replicates": 3,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "repeat_original",
+      "concentration": 1,
+      "noise_sd": 4,
+      "replicates": 5,
+      "analytic_conditional_error": 0.5,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 5000,
+        "error_rate": 0.5,
+        "tie_count": 10000,
+        "assigned_q": 5000,
+        "assigned_f": 5000,
+        "signed_discrepancy": 0
+      },
+      "equal_prior_error_rate": 0.5,
+      "equal_prior_signed_discrepancy": 0
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 1,
+      "replicates": 1,
+      "analytic_conditional_error": 0.1370323193049116,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 1418,
+        "error_rate": 0.1418,
+        "tie_count": 0,
+        "assigned_q": 8582,
+        "assigned_f": 1418,
+        "signed_discrepancy": 0.0047676806950884
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 1330,
+        "error_rate": 0.133,
+        "tie_count": 0,
+        "assigned_q": 1330,
+        "assigned_f": 8670,
+        "signed_discrepancy": -0.004032319304911602
+      },
+      "equal_prior_error_rate": 0.13740000000000002,
+      "equal_prior_signed_discrepancy": 0.0003676806950884126
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 1,
+      "replicates": 3,
+      "analytic_conditional_error": 0.029083940927728834,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 286,
+        "error_rate": 0.0286,
+        "tie_count": 0,
+        "assigned_q": 9714,
+        "assigned_f": 286,
+        "signed_discrepancy": -0.0004839409277288334
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 317,
+        "error_rate": 0.0317,
+        "tie_count": 0,
+        "assigned_q": 317,
+        "assigned_f": 9683,
+        "signed_discrepancy": 0.002616059072271165
+      },
+      "equal_prior_error_rate": 0.03015,
+      "equal_prior_signed_discrepancy": 0.001066059072271166
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 1,
+      "replicates": 5,
+      "analytic_conditional_error": 0.007228575020172698,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 58,
+        "error_rate": 0.0058,
+        "tie_count": 0,
+        "assigned_q": 9942,
+        "assigned_f": 58,
+        "signed_discrepancy": -0.0014285750201726982
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 72,
+        "error_rate": 0.0072,
+        "tie_count": 0,
+        "assigned_q": 72,
+        "assigned_f": 9928,
+        "signed_discrepancy": -0.000028575020172698015
+      },
+      "equal_prior_error_rate": 0.0065,
+      "equal_prior_signed_discrepancy": -0.0007285750201726981
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 2,
+      "replicates": 1,
+      "analytic_conditional_error": 0.29223230610840834,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 2968,
+        "error_rate": 0.2968,
+        "tie_count": 0,
+        "assigned_q": 7032,
+        "assigned_f": 2968,
+        "signed_discrepancy": 0.004567693891591673
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 3056,
+        "error_rate": 0.3056,
+        "tie_count": 0,
+        "assigned_q": 3056,
+        "assigned_f": 6944,
+        "signed_discrepancy": 0.013367693891591648
+      },
+      "equal_prior_error_rate": 0.3012,
+      "equal_prior_signed_discrepancy": 0.008967693891591688
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 2,
+      "replicates": 3,
+      "analytic_conditional_error": 0.1717645439989096,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 1682,
+        "error_rate": 0.1682,
+        "tie_count": 0,
+        "assigned_q": 8318,
+        "assigned_f": 1682,
+        "signed_discrepancy": -0.003564543998909625
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 1784,
+        "error_rate": 0.1784,
+        "tie_count": 0,
+        "assigned_q": 1784,
+        "assigned_f": 8216,
+        "signed_discrepancy": 0.00663545600109039
+      },
+      "equal_prior_error_rate": 0.1733,
+      "equal_prior_signed_discrepancy": 0.0015354560010903961
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 2,
+      "replicates": 5,
+      "analytic_conditional_error": 0.11069323957397698,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 1109,
+        "error_rate": 0.1109,
+        "tie_count": 0,
+        "assigned_q": 8891,
+        "assigned_f": 1109,
+        "signed_discrepancy": 0.0002067604260230227
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 1146,
+        "error_rate": 0.1146,
+        "tie_count": 0,
+        "assigned_q": 1146,
+        "assigned_f": 8854,
+        "signed_discrepancy": 0.003906760426023018
+      },
+      "equal_prior_error_rate": 0.11274999999999999,
+      "equal_prior_signed_discrepancy": 0.0020567604260230132
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 4,
+      "replicates": 1,
+      "analytic_conditional_error": 0.3922584649358175,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 3939,
+        "error_rate": 0.3939,
+        "tie_count": 0,
+        "assigned_q": 6061,
+        "assigned_f": 3939,
+        "signed_discrepancy": 0.0016415350641824644
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 3867,
+        "error_rate": 0.3867,
+        "tie_count": 0,
+        "assigned_q": 3867,
+        "assigned_f": 6133,
+        "signed_discrepancy": -0.00555846493581752
+      },
+      "equal_prior_error_rate": 0.3903,
+      "equal_prior_signed_discrepancy": -0.0019584649358175277
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 4,
+      "replicates": 3,
+      "analytic_conditional_error": 0.31788986221215304,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 3137,
+        "error_rate": 0.3137,
+        "tie_count": 0,
+        "assigned_q": 6863,
+        "assigned_f": 3137,
+        "signed_discrepancy": -0.0041898622121530615
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 3209,
+        "error_rate": 0.3209,
+        "tie_count": 0,
+        "assigned_q": 3209,
+        "assigned_f": 6791,
+        "signed_discrepancy": 0.003010137787846978
+      },
+      "equal_prior_error_rate": 0.3173,
+      "equal_prior_signed_discrepancy": -0.0005898622121530139
+    },
+    {
+      "design_id": "off_center",
+      "concentration": 0.5,
+      "noise_sd": 4,
+      "replicates": 5,
+      "analytic_conditional_error": 0.27045918184191814,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 2702,
+        "error_rate": 0.2702,
+        "tie_count": 0,
+        "assigned_q": 7298,
+        "assigned_f": 2702,
+        "signed_discrepancy": -0.00025918184191814353
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 2722,
+        "error_rate": 0.2722,
+        "tie_count": 0,
+        "assigned_q": 2722,
+        "assigned_f": 7278,
+        "signed_discrepancy": 0.0017408181580818582
+      },
+      "equal_prior_error_rate": 0.2712,
+      "equal_prior_signed_discrepancy": 0.0007408181580818574
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 1,
+      "replicates": 1,
+      "analytic_conditional_error": 0.02275013194817922,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 220,
+        "error_rate": 0.022,
+        "tie_count": 0,
+        "assigned_q": 9780,
+        "assigned_f": 220,
+        "signed_discrepancy": -0.0007501319481792203
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 224,
+        "error_rate": 0.0224,
+        "tie_count": 0,
+        "assigned_q": 224,
+        "assigned_f": 9776,
+        "signed_discrepancy": -0.0003501319481792192
+      },
+      "equal_prior_error_rate": 0.022199999999999998,
+      "equal_prior_signed_discrepancy": -0.0005501319481792215
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 1,
+      "replicates": 3,
+      "analytic_conditional_error": 0.00026600275256962515,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 2,
+        "error_rate": 0.0002,
+        "tie_count": 0,
+        "assigned_q": 9998,
+        "assigned_f": 2,
+        "signed_discrepancy": -0.00006600275256962514
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 3,
+        "error_rate": 0.0003,
+        "tie_count": 0,
+        "assigned_q": 3,
+        "assigned_f": 9997,
+        "signed_discrepancy": 0.00003399724743037482
+      },
+      "equal_prior_error_rate": 0.00025,
+      "equal_prior_signed_discrepancy": -0.000016002752569625148
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 1,
+      "replicates": 5,
+      "analytic_conditional_error": 0.000003872108215522048,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          0,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 0,
+        "error_rate": 0,
+        "tie_count": 0,
+        "assigned_q": 10000,
+        "assigned_f": 0,
+        "signed_discrepancy": -0.000003872108215522048
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          0,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 0,
+        "error_rate": 0,
+        "tie_count": 0,
+        "assigned_q": 0,
+        "assigned_f": 10000,
+        "signed_discrepancy": -0.000003872108215522048
+      },
+      "equal_prior_error_rate": 0,
+      "equal_prior_signed_discrepancy": -0.000003872108215522048
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 2,
+      "replicates": 1,
+      "analytic_conditional_error": 0.15865525393145707,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 1480,
+        "error_rate": 0.148,
+        "tie_count": 0,
+        "assigned_q": 8520,
+        "assigned_f": 1480,
+        "signed_discrepancy": -0.010655253931457082
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 1620,
+        "error_rate": 0.162,
+        "tie_count": 0,
+        "assigned_q": 1620,
+        "assigned_f": 8380,
+        "signed_discrepancy": 0.003344746068542931
+      },
+      "equal_prior_error_rate": 0.155,
+      "equal_prior_signed_discrepancy": -0.0036552539314570753
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 2,
+      "replicates": 3,
+      "analytic_conditional_error": 0.04163225833177522,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 424,
+        "error_rate": 0.0424,
+        "tie_count": 0,
+        "assigned_q": 9576,
+        "assigned_f": 424,
+        "signed_discrepancy": 0.0007677416682247834
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 392,
+        "error_rate": 0.0392,
+        "tie_count": 0,
+        "assigned_q": 392,
+        "assigned_f": 9608,
+        "signed_discrepancy": -0.002432258331775218
+      },
+      "equal_prior_error_rate": 0.0408,
+      "equal_prior_signed_discrepancy": -0.0008322583317752139
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 2,
+      "replicates": 5,
+      "analytic_conditional_error": 0.012673659338734137,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          1,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 152,
+        "error_rate": 0.0152,
+        "tie_count": 0,
+        "assigned_q": 9848,
+        "assigned_f": 152,
+        "signed_discrepancy": 0.0025263406612658634
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          1,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 136,
+        "error_rate": 0.0136,
+        "tie_count": 0,
+        "assigned_q": 136,
+        "assigned_f": 9864,
+        "signed_discrepancy": 0.0009263406612658627
+      },
+      "equal_prior_error_rate": 0.0144,
+      "equal_prior_signed_discrepancy": 0.001726340661265863
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 4,
+      "replicates": 1,
+      "analytic_conditional_error": 0.3085375387259869,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 3060,
+        "error_rate": 0.306,
+        "tie_count": 0,
+        "assigned_q": 6940,
+        "assigned_f": 3060,
+        "signed_discrepancy": -0.0025375387259868876
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          0
+        ],
+        "trials": 10000,
+        "error_count": 3047,
+        "error_rate": 0.3047,
+        "tie_count": 0,
+        "assigned_q": 3047,
+        "assigned_f": 6953,
+        "signed_discrepancy": -0.0038375387259868554
+      },
+      "equal_prior_error_rate": 0.30535,
+      "equal_prior_signed_discrepancy": -0.0031875387259868715
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 4,
+      "replicates": 3,
+      "analytic_conditional_error": 0.19323811538561636,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 1884,
+        "error_rate": 0.1884,
+        "tie_count": 0,
+        "assigned_q": 8116,
+        "assigned_f": 1884,
+        "signed_discrepancy": -0.004838115385616348
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          1
+        ],
+        "trials": 10000,
+        "error_count": 1877,
+        "error_rate": 0.1877,
+        "tie_count": 0,
+        "assigned_q": 1877,
+        "assigned_f": 8123,
+        "signed_discrepancy": -0.0055381153856163545
+      },
+      "equal_prior_error_rate": 0.18805,
+      "equal_prior_signed_discrepancy": -0.005188115385616365
+    },
+    {
+      "design_id": "max_separation",
+      "concentration": 2,
+      "noise_sd": 4,
+      "replicates": 5,
+      "analytic_conditional_error": 0.13177623864148638,
+      "q": {
+        "seed_entropy": [
+          2101,
+          0,
+          2,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 1313,
+        "error_rate": 0.1313,
+        "tie_count": 0,
+        "assigned_q": 8687,
+        "assigned_f": 1313,
+        "signed_discrepancy": -0.00047623864148638173
+      },
+      "f": {
+        "seed_entropy": [
+          2101,
+          1,
+          2,
+          2
+        ],
+        "trials": 10000,
+        "error_count": 1346,
+        "error_rate": 0.1346,
+        "tie_count": 0,
+        "assigned_q": 1346,
+        "assigned_f": 8654,
+        "signed_discrepancy": 0.0028237613585136156
+      },
+      "equal_prior_error_rate": 0.13295,
+      "equal_prior_signed_discrepancy": 0.0011737613585136308
+    }
+  ],
+  "remaining_alias": {
+    "formula": "g(x) = q(x) - x*(x-1)*(x-2)*(x-3)*(x-4)",
+    "agreement_concentrations": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "grid_predictions": [
+      {
+        "concentration": 0,
+        "q_mean": 6,
+        "g_mean": 6,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 0.25,
+        "q_mean": 6.9375,
+        "g_mean": 3.5537109375,
+        "absolute_gap": 3.3837890625
+      },
+      {
+        "concentration": 0.5,
+        "q_mean": 7.75,
+        "g_mean": 4.46875,
+        "absolute_gap": 3.28125
+      },
+      {
+        "concentration": 0.75,
+        "q_mean": 8.4375,
+        "g_mean": 6.7236328125,
+        "absolute_gap": 1.7138671875
+      },
+      {
+        "concentration": 1,
+        "q_mean": 9,
+        "g_mean": 9,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 1.25,
+        "q_mean": 9.4375,
+        "g_mean": 10.5654296875,
+        "absolute_gap": 1.1279296875
+      },
+      {
+        "concentration": 1.5,
+        "q_mean": 9.75,
+        "g_mean": 11.15625,
+        "absolute_gap": 1.40625
+      },
+      {
+        "concentration": 1.75,
+        "q_mean": 9.9375,
+        "g_mean": 10.8603515625,
+        "absolute_gap": 0.9228515625
+      },
+      {
+        "concentration": 2,
+        "q_mean": 10,
+        "g_mean": 10,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 2.25,
+        "q_mean": 9.9375,
+        "g_mean": 9.0146484375,
+        "absolute_gap": 0.9228515625
+      },
+      {
+        "concentration": 2.5,
+        "q_mean": 9.75,
+        "g_mean": 8.34375,
+        "absolute_gap": 1.40625
+      },
+      {
+        "concentration": 2.75,
+        "q_mean": 9.4375,
+        "g_mean": 8.3095703125,
+        "absolute_gap": 1.1279296875
+      },
+      {
+        "concentration": 3,
+        "q_mean": 9,
+        "g_mean": 9,
+        "absolute_gap": 0
+      },
+      {
+        "concentration": 3.25,
+        "q_mean": 8.4375,
+        "g_mean": 10.1513671875,
+        "absolute_gap": 1.7138671875
+      },
+      {
+        "concentration": 3.5,
+        "q_mean": 7.75,
+        "g_mean": 11.03125,
+        "absolute_gap": 3.28125
+      },
+      {
+        "concentration": 3.75,
+        "q_mean": 6.9375,
+        "g_mean": 10.3212890625,
+        "absolute_gap": 3.3837890625
+      },
+      {
+        "concentration": 4,
+        "q_mean": 6,
+        "g_mean": 6,
+        "absolute_gap": 0
+      }
+    ]
+  }
+}

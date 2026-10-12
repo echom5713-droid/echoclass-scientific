@@ -1,0 +1,32 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/records.json
+data/users.json
+data/practice_answers.json
+uploads/
+backups/
+coverage/
+dist/
+__pycache__/
+.pytest_cache/
+
+data/evidence/
+data/scientific-executor.lock
+data/scientific-runtime-*/
+.venv/
+
+.venv-figures/
+/method-study.json
+
+# Local follow-up study output (committed evidence lives in resources).
+/followup-design.json
+
+# Also ignore a local dependency symlink used during isolated verification.
+node_modules

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "integer key ordering",
+    "input_json": "{\"2\":\"two\",\"10\":\"ten\",\"a\":null}",
+    "canonical_json": "{\"10\":\"ten\",\"2\":\"two\",\"a\":null}",
+    "sha256": "sha256:6640b8ee23af18bd9a1a1943168e3b4a973debe25ea7cd55d04db147c66820ab"
+  },
+  {
+    "name": "unicode UTF16 ordering",
+    "input_json": "{\"😀\":\"emoji\",\"דּ\":\"hebrew\",\"中\":\"Chinese\",\"a\":\"line\\nquote\\\"\"}",
+    "canonical_json": "{\"a\":\"line\\nquote\\\"\",\"中\":\"Chinese\",\"😀\":\"emoji\",\"דּ\":\"hebrew\"}",
+    "sha256": "sha256:3a1677dd3af020d1f84215f06688dd71c487da48074caf2749589fc9045aaf85"
+  },
+  {
+    "name": "RFC finite numbers",
+    "input_json": "[5e-324,-0,1.7976931348623157e308,1e-7,1e21,333333333.33333329]",
+    "canonical_json": "[5e-324,0,1.7976931348623157e+308,1e-7,1e+21,333333333.3333333]",
+    "sha256": "sha256:e34024c32dc18b0e66d0621bbc1a5ff2859dddf928b8c8c765290e3364bfd598"
+  },
+  {
+    "name": "null versus absent",
+    "input_json": "{\"a\":null,\"nested\":{\"b\":true}}",
+    "canonical_json": "{\"a\":null,\"nested\":{\"b\":true}}",
+    "sha256": "sha256:16b9f31f9cd7d3a5fdc7178b105d57c63fd107b55bd5fc984d5def69016b583d"
+  },
+  {
+    "name": "preserved unicode normalization",
+    "input_json": "{\"é\":\"composed\",\"é\":\"decomposed\"}",
+    "canonical_json": "{\"é\":\"decomposed\",\"é\":\"composed\"}",
+    "sha256": "sha256:8117f7eb721338d1c046fc7a3905d1f77b7a920abc82436194992a55af52f571"
+  }
+]

@@ -1,0 +1,2 @@
+﻿"student_name","group_name","nh4cl_concentration_pct","peel_mass_g","oil_mass_g","distillation_time_min","phase_clarity_score","emulsification_level","emulsion_concentration_pct","ecoli_observation_group","inhibition_zone_diameter_mm","colony_growth_score","anomaly_flag","error_source","note","experiment_date","petri_diameter_mm","measurement_method"
+"Synthetic 学生","Synthetic G","3","100","1","45","3.5","轻微","20","synthetic control","10","3","false","","synthetic fixture only","2024-02-29","","manual_direct"
