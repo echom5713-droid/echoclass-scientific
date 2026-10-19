@@ -4,6 +4,12 @@ Citrus-extraction records, review decisions and the inputs used for a calculatio
 
 [English](README.md) · [中文](README.zh.md)
 
+## Project websites
+
+- [Scientific engineering website](http://43.132.224.207:8080/) — the scientific project introduction, synthetic case, interactive follow-up design and guided code reading.
+- [Teaching demonstration website](http://43.132.224.207/) — the separate citrus essential oil teaching project, with micro-lessons and public classroom demonstrations. Its [teaching project repository](https://github.com/echom5713-droid/echoHZAU-citrus-lab) retains an earlier source version; this scientific repository is not the source for both websites.
+
+
 **3.0.0-beta.25 · scientific software prototype** — Node.js 24, TypeScript, SQLite and Python 3.12.13.
 
 A corrected observation should not silently change the meaning of an earlier report. EchoClass preserves original submissions, appends review events and seals the input used for each scientific calculation. The public snapshot includes synthetic data and original code-generated figures. It contains no experimental photographs, lecture video, binary molecular model or classroom database.
