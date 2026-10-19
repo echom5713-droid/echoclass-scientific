@@ -1,0 +1,85 @@
+# Review template only. Nothing here has been installed on a server.
+# Replace echoclass.example.invalid in BOTH server_name and the Host check.
+# Inspect existing listeners/default servers before incorporating these blocks.
+# Only the new 8080 listener is configured; preserve existing 80/3000/3001 services.
+# HTTPS is intentionally deferred until the actual domain and old Nginx are reviewed.
+
+server {
+    listen 8080 default_server;
+    server_name _;
+    return 444;
+}
+
+server {
+    listen 8080;
+    server_name echoclass.example.invalid;
+
+    # Also reject mismatched Host headers on absolute-form HTTP requests.
+    if ($http_host !~* "^echoclass\.example\.invalid(?::8080)?$") {
+        return 444;
+    }
+    if ($request_method !~ "^(GET|HEAD)$") {
+        return 405;
+    }
+
+    client_max_body_size 1k;
+    client_body_timeout 10s;
+    client_header_timeout 10s;
+    send_timeout 15s;
+    server_tokens off;
+
+    proxy_http_version 1.1;
+    # The application page router currently handles GET only. Nginx suppresses
+    # the response body for a client HEAD while fetching the same GET resource.
+    proxy_method GET;
+    proxy_pass_request_body off;
+    proxy_set_header Content-Length "";
+    proxy_set_header Connection "";
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    # The application trusts the first XFF address: replace client input.
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Forwarded "";
+    proxy_connect_timeout 3s;
+    proxy_read_timeout 15s;
+    proxy_send_timeout 15s;
+    proxy_cache off;
+
+    # Example only: Compose must bind 127.0.0.1:3002 to container port 3000.
+    # Exact locations are intentional. Do not replace them with location /.
+    location = / {
+        proxy_pass http://127.0.0.1:3002;
+    }
+    location = /engineering {
+        proxy_pass http://127.0.0.1:3002;
+    }
+    location = /walkthrough {
+        proxy_pass http://127.0.0.1:3002;
+    }
+    location = /static/project.css {
+        proxy_pass http://127.0.0.1:3002;
+    }
+    location = /static/followup-design.js {
+        proxy_pass http://127.0.0.1:3002;
+    }
+    # Fixed bilingual notices. These paths never contact the application.
+    location = /classroom {
+        default_type "text/html; charset=utf-8";
+        add_header Cache-Control "no-store" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" always;
+        return 200 '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Classroom scope · EchoClass</title><style>body{margin:0;background:#faf8f2;color:#19382b;font:18px/1.65 system-ui,sans-serif}main{max-width:46rem;margin:8vh auto;padding:2rem}h1{font-size:clamp(2rem,6vw,3.6rem);line-height:1.1}section{margin-top:2rem;border-top:1px solid #ced5ca;padding-top:1rem}a{color:#215c43}nav{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em}</style></head><body><main><p class="eyebrow">EchoClass / public showcase</p><h1>Read the project.<br>Inspect the code.</h1><p>This public website presents synthetic examples and engineering notes. Classroom accounts, data entry and uploads are not enabled here.</p><p>The classroom workflow can be inspected in the public source repository. This page does not submit data or start a classroom session.</p><section lang="zh-CN" aria-label="中文说明"><h2>公开展示说明</h2><p>本站展示合成案例和工程阅读，未启用课堂账号、数据写入或上传。课堂流程可在公开源码中查看；本页不会提交数据或开启课堂会话。</p></section><nav aria-label="Next steps"><a href="/">Return to project</a><a href="/?lang=zh" lang="zh-CN">返回中文项目介绍</a><a href="https://github.com/echom5713-droid/echoclass-scientific/blob/eba19f1443d85bc20b7a9dd12c13ba80bdd7db22/src/http/routes/page-routes.ts">Classroom source / 课堂源码 ↗</a></nav></main></body></html>';
+    }
+    location = /demo {
+        default_type "text/html; charset=utf-8";
+        add_header Cache-Control "no-store" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" always;
+        return 200 '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Classroom scope · EchoClass</title><style>body{margin:0;background:#faf8f2;color:#19382b;font:18px/1.65 system-ui,sans-serif}main{max-width:46rem;margin:8vh auto;padding:2rem}h1{font-size:clamp(2rem,6vw,3.6rem);line-height:1.1}section{margin-top:2rem;border-top:1px solid #ced5ca;padding-top:1rem}a{color:#215c43}nav{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em}</style></head><body><main><p class="eyebrow">EchoClass / public showcase</p><h1>Read the project.<br>Inspect the code.</h1><p>This public website presents synthetic examples and engineering notes. Classroom accounts, data entry and uploads are not enabled here.</p><p>The classroom workflow can be inspected in the public source repository. This page does not submit data or start a classroom session.</p><section lang="zh-CN" aria-label="中文说明"><h2>公开展示说明</h2><p>本站展示合成案例和工程阅读，未启用课堂账号、数据写入或上传。课堂流程可在公开源码中查看；本页不会提交数据或开启课堂会话。</p></section><nav aria-label="Next steps"><a href="/">Return to project</a><a href="/?lang=zh" lang="zh-CN">返回中文项目介绍</a><a href="https://github.com/echom5713-droid/echoclass-scientific/blob/eba19f1443d85bc20b7a9dd12c13ba80bdd7db22/src/http/routes/page-routes.ts">Classroom source / 课堂源码 ↗</a></nav></main></body></html>';
+    }
+    location / {
+        return 404;
+    }
+}
