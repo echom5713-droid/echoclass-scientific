@@ -1,0 +1,40 @@
+model,A,B,C,centre,rank,parameters,estimable,prediction,observed_mean
+Linear,7.0,2.0,30.0,False,4,4,True,1.6158510638297885,1.4
+Additive quadratic,7.0,2.0,30.0,False,7,7,True,1.447500000000003,1.4
+Full quadratic,7.0,2.0,30.0,False,10,10,True,1.5050000000000001,1.4
+Linear,7.0,3.0,15.0,False,4,4,True,1.4215957446808527,1.26
+Additive quadratic,7.0,3.0,15.0,False,7,7,True,1.2525000000000035,1.26
+Full quadratic,7.0,3.0,15.0,False,10,10,True,1.255000000000003,1.26
+Linear,7.0,3.0,45.0,False,4,4,True,1.704574468085108,1.59
+Additive quadratic,7.0,3.0,45.0,False,7,7,True,1.5175000000000016,1.59
+Full quadratic,7.0,3.0,45.0,False,10,10,True,1.435000000000002,1.59
+Linear,7.0,4.0,30.0,False,4,4,True,1.555000000000001,1.35
+Additive quadratic,7.0,4.0,30.0,False,7,7,True,1.3825000000000038,1.35
+Full quadratic,7.0,4.0,30.0,False,10,10,True,1.4050000000000018,1.35
+Linear,8.0,2.0,15.0,False,4,4,True,1.4610638297872351,1.37
+Additive quadratic,8.0,2.0,15.0,False,7,7,True,1.3000000000000025,1.37
+Full quadratic,8.0,2.0,15.0,False,10,10,True,1.2700000000000022,1.37
+Linear,8.0,2.0,45.0,False,4,4,True,1.7842553191489374,1.61
+Additive quadratic,8.0,2.0,45.0,False,7,7,True,1.6550000000000025,1.61
+Full quadratic,8.0,2.0,45.0,False,10,10,True,1.6600000000000021,1.61
+Linear,8.0,3.0,30.0,True,4,4,True,1.4400000000000004,1.8240000000000003
+Additive quadratic,8.0,3.0,30.0,True,6,7,False,,1.8240000000000003
+Full quadratic,8.0,3.0,30.0,True,9,10,False,,1.8240000000000003
+Linear,8.0,4.0,15.0,False,4,4,True,1.4180851063829791,1.28
+Additive quadratic,8.0,4.0,15.0,False,7,7,True,1.2750000000000004,1.28
+Full quadratic,8.0,4.0,15.0,False,10,10,True,1.2300000000000033,1.28
+Linear,8.0,4.0,45.0,False,4,4,True,1.72340425531915,1.56
+Additive quadratic,8.0,4.0,45.0,False,7,7,True,1.5900000000000019,1.56
+Full quadratic,8.0,4.0,45.0,False,10,10,True,1.6600000000000035,1.56
+Linear,9.0,2.0,30.0,False,4,4,True,1.6652127659574478,1.5
+Additive quadratic,9.0,2.0,30.0,False,7,7,True,1.4775000000000034,1.5
+Full quadratic,9.0,2.0,30.0,False,10,10,True,1.4450000000000014,1.5
+Linear,9.0,3.0,15.0,False,4,4,True,1.5067021276595751,1.28
+Additive quadratic,9.0,3.0,15.0,False,7,7,True,1.3625000000000014,1.28
+Full quadratic,9.0,3.0,15.0,False,10,10,True,1.4349999999999994,1.28
+Linear,9.0,3.0,45.0,False,4,4,True,1.7852127659574475,1.62
+Additive quadratic,9.0,3.0,45.0,False,7,7,True,1.617500000000002,1.62
+Full quadratic,9.0,3.0,45.0,False,10,10,True,1.6249999999999967,1.62
+Linear,9.0,4.0,30.0,False,4,4,True,1.5998936170212772,1.46
+Additive quadratic,9.0,4.0,30.0,False,7,7,True,1.4025000000000014,1.46
+Full quadratic,9.0,4.0,30.0,False,10,10,True,1.355000000000004,1.46
